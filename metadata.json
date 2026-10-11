@@ -1,0 +1,6 @@
+{
+  "name": "Conic City",
+  "description": "Interactive architectural mathematics platform exploring real-world conic sections across iconic global structures with Three.js 3D visualizations, equation calculators, and bilingual English/Hindi support.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

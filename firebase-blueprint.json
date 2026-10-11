@@ -1,0 +1,188 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile storing display name, preferences, and authentication metadata",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The user's unique identifier matching their Firebase Auth UID",
+          "pattern": "^[a-zA-Z0-9_-]+$",
+          "maxLength": 128
+        },
+        "email": {
+          "type": "string",
+          "description": "User email address",
+          "maxLength": 256
+        },
+        "displayName": {
+          "type": "string",
+          "description": "User public display name",
+          "maxLength": 100
+        },
+        "photoURL": {
+          "type": "string",
+          "description": "Avatar image URL",
+          "maxLength": 2000
+        },
+        "language": {
+          "type": "string",
+          "description": "User preferred language",
+          "enum": ["en", "hi"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the user document was created"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of last profile update"
+        }
+      },
+      "required": ["id", "displayName", "language", "createdAt", "updatedAt"]
+    },
+    "UserFavorite": {
+      "title": "UserFavorite",
+      "description": "Bookmarked architectural masterwork per user",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique favorite document identifier",
+          "pattern": "^[a-zA-Z0-9_-]+$",
+          "maxLength": 128
+        },
+        "userId": {
+          "type": "string",
+          "description": "UID of the bookmark owner",
+          "pattern": "^[a-zA-Z0-9_-]+$",
+          "maxLength": 128
+        },
+        "buildingId": {
+          "type": "string",
+          "description": "Identifier of the saved conic building",
+          "pattern": "^[a-zA-Z0-9_-]+$",
+          "maxLength": 64
+        },
+        "conicType": {
+          "type": "string",
+          "description": "Conic section category",
+          "enum": ["circle", "ellipse", "parabola", "hyperbola"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when bookmarked"
+        }
+      },
+      "required": ["id", "userId", "buildingId", "conicType", "createdAt"]
+    },
+    "QuizResult": {
+      "title": "QuizResult",
+      "description": "Conic geometry quiz assessment submission for leaderboard and stats",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique submission ID",
+          "pattern": "^[a-zA-Z0-9_-]+$",
+          "maxLength": 128
+        },
+        "userId": {
+          "type": "string",
+          "description": "UID of the user who completed the quiz",
+          "pattern": "^[a-zA-Z0-9_-]+$",
+          "maxLength": 128
+        },
+        "userName": {
+          "type": "string",
+          "description": "Display name of participant",
+          "maxLength": 100
+        },
+        "score": {
+          "type": "number",
+          "description": "Number of correct answers"
+        },
+        "total": {
+          "type": "number",
+          "description": "Total number of questions"
+        },
+        "percentage": {
+          "type": "number",
+          "description": "Percentage score (0 - 100)"
+        },
+        "completedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server completion timestamp"
+        }
+      },
+      "required": ["id", "userId", "userName", "score", "total", "percentage", "completedAt"]
+    },
+    "JudgeFeedback": {
+      "title": "JudgeFeedback",
+      "description": "Judge or visitor evaluation and remarks on conic architectural models",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique feedback ID",
+          "pattern": "^[a-zA-Z0-9_-]+$",
+          "maxLength": 128
+        },
+        "userId": {
+          "type": "string",
+          "description": "UID of the reviewer",
+          "pattern": "^[a-zA-Z0-9_-]+$",
+          "maxLength": 128
+        },
+        "userName": {
+          "type": "string",
+          "description": "Name of the judge/reviewer",
+          "maxLength": 100
+        },
+        "rating": {
+          "type": "number",
+          "description": "Rating score between 1 and 5"
+        },
+        "comment": {
+          "type": "string",
+          "description": "Written architectural or mathematical feedback",
+          "maxLength": 1000
+        },
+        "buildingId": {
+          "type": "string",
+          "description": "Optional building ID target or 'general'",
+          "maxLength": 64
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Submission timestamp"
+        }
+      },
+      "required": ["id", "userId", "userName", "rating", "comment", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile document indexed by Auth UID"
+    },
+    "/users/{userId}/favorites/{favoriteId}": {
+      "schema": "UserFavorite",
+      "description": "Bookmarked architectural masterworks under user subcollection"
+    },
+    "/quizResults/{resultId}": {
+      "schema": "QuizResult",
+      "description": "Global leaderboard submissions for conic math assessments"
+    },
+    "/feedback/{feedbackId}": {
+      "schema": "JudgeFeedback",
+      "description": "Judge evaluations and visitor remarks for the exhibition"
+    }
+  }
+}
