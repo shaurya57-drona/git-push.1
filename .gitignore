@@ -7,3 +7,11 @@ coverage/
 .env*
 !.env.example
    .env*
+   node_modules/
+dist/
+build/
+coverage/
+
+.env
+.env.*
+!.env.example
